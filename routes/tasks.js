@@ -14,6 +14,22 @@ const getTasks = async ctx => {
 
 router.get('/api/taks', getTasks)
 
+const getTask = async ctx => {
+    await Task.findOne({
+        where: {
+            id: ctx.params.id
+        }
+    })
+    .then(tasks =>  {
+        ctx.body = tasks
+    })
+    .catch (err => { 
+        ctx.body = 'Task does not exist' 
+    })
+}
+
+router.get('/api/taks/:id', getTask)
+
 const postTasks = async ctx => {
     if(!ctx.request.body.task_name) {
         ctx.body = {
@@ -32,5 +48,19 @@ const postTasks = async ctx => {
 }
 
 router.post('./api/task', postTasks)
+
+router.delete('/api/task/:id', async ctx => {
+    await Task.destroye({
+        where: {
+            id: ctx.params.id
+        }
+    })
+    .then(() => {
+        ctx.body = { status: 'Task Deleted' }
+    })
+    .catch((err => {
+        ctx.body = 'error: ' + err
+    }))
+}) 
 
 module.exports = router
