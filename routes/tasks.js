@@ -12,7 +12,7 @@ const getTasks = async ctx => {
     })
 }
 
-router.get('/api/taks', getTasks)
+router.get('/api/task', getTasks)
 
 const getTask = async ctx => {
     await Task.findOne({
@@ -28,7 +28,7 @@ const getTask = async ctx => {
     })
 }
 
-router.get('/api/taks/:id', getTask)
+router.get('/api/task/:id', getTask)
 
 const postTasks = async ctx => {
     if(!ctx.request.body.task_name) {
@@ -63,4 +63,23 @@ router.delete('/api/task/:id', async ctx => {
     }))
 }) 
 
+router.put('/api/task/:id', async ctx => {
+    if(!ctx.request.body.task_name) {
+        ctx.body ={
+            error: 'Bad Data'
+        }
+    }
+    else {
+        await Task.update(
+            {task_name: ctx.request.body.task_name},
+            {where: {id: ctx.params.id}}
+        )
+        .then(() => {
+            ctx.body = {status: 'Task Updated!'}
+        })
+        .catch(err => {
+            ctx.body = "error: " + err
+        })
+    }
+})
 module.exports = router
