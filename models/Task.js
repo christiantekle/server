@@ -1,6 +1,5 @@
-const Sequilize = require('sequelize')
+const Sequelize = require('sequelize')
 const sequelize = require('../database/db')
-const { Sequelize } = require('sequelize')
 
 module.exports = sequelize.define(
     'tbl_tasks',

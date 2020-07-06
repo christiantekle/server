@@ -1,3 +1,5 @@
+const Task = require("../models/Task");
+
 const getTasks = async (ctx) => {
     await Task.findAll()
       .then((tasks) => {
@@ -38,7 +40,7 @@ const getTasks = async (ctx) => {
   };
 
   const deleteTask = async (ctx) => {
-    await Task.destroye({
+    await Task.destroy({
       where: {
         id: ctx.params.id,
       },
