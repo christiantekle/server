@@ -23,13 +23,12 @@ const postTasks = async (ctx) => {
     ctx.body = {
       error: "Bad Data",
     };
-  } else {
-    try {
-      const data = await Task.create(ctx.request.body);
-      ctx.body = data;
-    } catch (err) {
-      ctx.body = "error: " + err;
-    }
+  }
+  try {
+    const data = await Task.create(ctx.request.body);
+    ctx.body = data;
+  } catch (err) {
+    ctx.body = "error: " + err;
   }
 };
 
@@ -51,16 +50,15 @@ const putTask = async (ctx) => {
     ctx.body = {
       error: "Bad Data",
     };
-  } else {
-    try {
-      await Task.update(
-        { task_name: ctx.request.body.task_name },
-        { where: { id: ctx.params.id } }
-      );
-      ctx.body = { status: "Task Updated!" };
-    } catch (err) {
-      ctx.body = "error: " + err;
-    }
+  }
+  try {
+    await Task.update(
+      { task_name: ctx.request.body.task_name },
+      { where: { id: ctx.params.id } }
+    );
+    ctx.body = { status: "Task Updated!" };
+  } catch (err) {
+    ctx.body = "error: " + err;
   }
 };
 module.exports.getTasks = getTasks;
